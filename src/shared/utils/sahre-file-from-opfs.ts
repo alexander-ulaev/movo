@@ -4,12 +4,17 @@ export async function shareFileFromOPFS(filename: string) {
     const fileHandle = await root.getFileHandle(filename);
     const file = await fileHandle.getFile();
 
-    if (file && navigator.share && navigator.canShare()) {
-      await navigator.share({
-        title: "Файл из OPFS",
-        text: "Вот файл, которымnavigator.share я хочу поделиться:",
-        files: [file],
-      });
+    const blob = new Blob([file]);
+    const fileShare = new File([blob], file.name + '.txt', {type: 'text/plain'});
+
+    console.log(fileShare);
+
+    const shareData = {
+      files: [fileShare],
+    };
+
+    if (file && navigator.share && navigator.canShare(shareData)) {
+      await navigator.share(shareData);
       console.log("Файл успешно отправлен.");
     } else {
       console.error(
@@ -17,6 +22,7 @@ export async function shareFileFromOPFS(filename: string) {
       );
     }
   } catch (error) {
+    alert(error)
     console.error("Ошибка при отправки файла:", error);
     return null;
   }

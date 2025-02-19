@@ -17,7 +17,7 @@ const Root = styled.div`
   width: 100%;
   overflow-y: auto;
   max-height: 500px;
-  min-height: 70px;
+  height: 500px;
 
   margin-bottom: 112px;
 `;
@@ -63,7 +63,10 @@ export const ListFiles: FC<Props> = memo(({ onChange }) => {
       {listFiles.length === 0 && <>Нет файлов</>}
       <MenuList>
         {listFiles.map((fileName) => (
-          <MenuItem key={`list-files-${fileName}`} onClick={() => onFileClick(fileName)}>
+          <MenuItem
+            key={`list-files-${fileName}`}
+            onClick={() => onFileClick(fileName)}
+          >
             <ListItemText>{fileName}</ListItemText>
             <IconButton onClick={() => onClickShare(fileName)}>
               <ShareIcon color="primary" fontSize="medium" />
